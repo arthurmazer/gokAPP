@@ -2,6 +2,8 @@ package mazer.arthur.gokapp.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
             it.let{ response ->
                 when (response.status){
                     Status.SUCCESS -> {
+                        showLoadingLayout(false)
                         response.data.let { productsList ->
                             spotlightAdapter.spotlightList = productsList?.spotlight ?: return@Observer
                             productsAdapter.productsList = productsList.product
@@ -48,13 +51,34 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     Status.LOADING -> {
+                        showLoadingLayout(true)
                     }
                     Status.ERROR -> {
+                        Toast.makeText(this, getString(R.string.error_api), Toast.LENGTH_SHORT)
                     }
                 }
 
             }
         })
+    }
+
+    private fun showLoadingLayout(show: Boolean){
+        if (show){
+            layout_loading?.visibility = View.VISIBLE
+            rvSpotlight?.visibility = View.GONE
+            layoutDigioCash?.visibility = View.GONE
+            cvCash?.visibility = View.GONE
+            tvProducts?.visibility = View.GONE
+            rvProducts?.visibility = View.GONE
+        }else{
+            layout_loading?.visibility = View.GONE
+            rvSpotlight?.visibility = View.VISIBLE
+            layoutDigioCash?.visibility = View.VISIBLE
+            cvCash?.visibility = View.VISIBLE
+            tvProducts?.visibility = View.VISIBLE
+            rvProducts?.visibility = View.VISIBLE
+        }
+
     }
 
     private fun setupSpotlightRecyclerView() {

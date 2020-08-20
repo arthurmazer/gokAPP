@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">GoKAPP</string>
+    <string name="label_products">Produtos</string>
+    <string name="label_cash">Cash</string>
+    <string name="label_digio">digio</string>
+    <string name="error_api">Erro ao carregar dados do servidor.</string>
 </resources>
